@@ -285,3 +285,10 @@ pipe.php — строку, разделяя «|».
 
 Практически вся логика экспорта находится тут
 ```\media\zoo\applications\jbuniversal\framework\helpers\jbyml.php ```
+
+YML лимит на фото (строка 490-491)
+
+```
+ $imageData = $element->data();
+ $limit     = 10;
+```
