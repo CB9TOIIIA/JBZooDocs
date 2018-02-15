@@ -10,12 +10,10 @@ taxonomy:
  
 На всякий случай, если кто не знает:
  
-```
-administrator/components/com_akeeba/backup```
+```administrator/components/com_akeeba/backup```
 
   - тут лежат ваши бэкапы, при наличии приложения Akeeba ([https://www.akeebabackup.com/](https://www.akeebabackup.com/))
-```
-/templates/template_name```
+```/templates/template_name```
 
  - тут лежит ваш шаблон
 [hr]
@@ -23,16 +21,14 @@ administrator/components/com_akeeba/backup```
 Везде далее * - это /media/zoo/applications/jbuniversal
  
 **Шаблоны**
-```
-*/templates/catalog/renderer/item```
+```*/templates/catalog/renderer/item```
 
  - тут создаются новые шаблоны (или редактируются уже существующие) для типов материала [sub](Product, blog, news etc.)[/sub], такие как **favorite, teaser, full и т.п.**
 [Пошаговый урок](http://forum.jbzoo.com/topic/2591-kak-dobavit-novyj-shablon-k-tipu-materiala/)
 [Ссылка на доку ](http://jbzoo.ru/docs/item-templates)
  
 
-```
-/modules/mod_jbzoo_search/renderer/item/```
+```/modules/mod_jbzoo_search/renderer/item/```
 
  - тут создаются новые шаблоны фильтров (или редактируются уже существующие), такие как **Inline, Table, 2columns etc.**
  
@@ -44,90 +40,71 @@ administrator/components/com_akeeba/backup```
 [Документация по настройке полей и элементов от ZOO](http://www.yootheme.com/zoo/documentation?view=docs)
 [Переиндексация базы данных](http://forum.jbzoo.com/topic/1976-)
 
-```
-*\templates\catalog\renderer\category\```
+```*\templates\catalog\renderer\category\```
 
 - шаблон вывода категорий
-```
-*/templates/catalog/renderer/comment/```
+```*/templates/catalog/renderer/comment/```
 
  - шаблоны комментариев
-```
-*/templates/catalog/renderer/basket/_default.php```
+```*/templates/catalog/renderer/basket/_default.php```
 
  - шаблон вывода таблицы с товарами в корзине
-```
-*/templates/catalog/renderer/item_columns/_default.php```
+```*/templates/catalog/renderer/item_columns/_default.php```
 
  - формирование колонок товаров 
-```
-*\templates\*_TEMPLATE_*\renderer\basket-success\index.php```
+```*\templates\*_TEMPLATE_*\renderer\basket-success\index.php```
 
 - шаблон страницы создания заказа. "Ваш заказ успешно создан" - это оттуда. **ver 2.2**
-```
-*/templates/*_TEMPLATE_*/renderer/payment_success/_default.php ```
+```*/templates/*_TEMPLATE_*/renderer/payment_success/_default.php ```
 
 - шаблон успешной оплаты **ver 2.2**
-```
-*/templates/*_TEMPLATE_*/renderer/payment_fail/_default.php ```
+```*/templates/*_TEMPLATE_*/renderer/payment_fail/_default.php ```
 
 - шаблон ошибки при оплате **ver 2.2**
   
 **Письма**
-```
-*/templates/catalog/renderer/item/order/```
+```*/templates/catalog/renderer/item/order/```
 
  - шаблон письма заказа
-```
-*/templates/catalog/mail.comment.admin.php```
+```*/templates/catalog/mail.comment.admin.php```
 
 - письмо админу о добавлении нового / редактировании существующего комментария
-```
-*/templates/catalog/mail.comment.reply.php```
+```*/templates/catalog/mail.comment.reply.php```
 
 - письмо подписавшемуся на свой комментарий
-```
-*/templates/catalog/mail.submission.new.php```
+```*/templates/catalog/mail.submission.new.php```
 
 - письмо о добавлении нового материала
-```
-/administrator/components/com_zoo/helpers/submission.php```
+```/administrator/components/com_zoo/helpers/submission.php```
 
 - тема письма о новом материале "New submission notification"
-```
-/administrator/components/com_zoo/helpers/comment.php```
+```/administrator/components/com_zoo/helpers/comment.php```
 
 - тема письма о добавлении комментария"Topic reply notification"
  
 **Письма для 2.2**
  
-```
-media\zoo\applications\jbuniversal\templates-system\renderer\email\*Ваш шаблон*```
+```media\zoo\applications\jbuniversal\templates-system\renderer\email\*Ваш шаблон*```
 
 - шаблон письма, если не переопределено.
-```
-media\zoo\applications\jbuniversal\framework\render```
+```media\zoo\applications\jbuniversal\framework\render```
 
 В шаблоне почты $this ссылается на объект класса EmailRenderer. Рендереры JBZoo лежат в этой папке.
 
 Цепочка такова - элемент sendemail нотификации(notificiation) создает renderer.
 Renderer парсит шаблон(Позиции), обращаясь к нашим элементам - 
-```
-media\zoo\applications\jbuniversal\cart-elements\email```
+```media\zoo\applications\jbuniversal\cart-elements\email```
 
 В свою очередь, от полученных данных они отображают или не отображают контент.
 
 **Все остальное :)**
-```
-*/jbuniversal/language/ru-RU```
+```*/jbuniversal/language/ru-RU```
 
  - языковые константы (т.е. Цена (за 1шт.) меняется тут)
-```
-/language/ru-RU/ru-RU.com_zoo.ini ```
+```/language/ru-RU/ru-RU.com_zoo.ini ```
 
 - языковые константы Zoo (если вы что-то не смогли найти в JBZoo, посмотрите тут)
-```
-/components/com_zoo/renderer/element```
+```/components/com_zoo/renderer/element```
 
  - шаблоны стилей позиций:
 block.php — элементы внутри блока div, блоку можно указать class.
@@ -145,68 +122,54 @@ pipe.php — строку, разделяя «|».
  
 
 	1. **Блок "таблица с товарами"**
-	```
-*/templates/catalog/renderer/basket/_form.php```
+	```*/templates/catalog/renderer/basket/_form.php```
 
 	*Стили:*
-	```
-media/zoo/applications/jbuniversal/templates/uikit/assets/less ```
+	```media/zoo/applications/jbuniversal/templates/uikit/assets/less ```
 
 	[/*]
 	1. ***Блок "поля заказа"***
-	```
-*/templates/catalog/renderer/basket/_shipping.php```
+	```*/templates/catalog/renderer/basket/_shipping.php```
 
 	[/*]
 	1. ***Блок "сервис доставки"***
-	```
-*/templates/catalog/renderer/basket/_shipping.php```
+	```*/templates/catalog/renderer/basket/_shipping.php```
 
 	[/*]
 
 ***Блок "кнопки"***
-```
-*/templates/catalog/renderer/basket/_buttons.php```
+```*/templates/catalog/renderer/basket/_buttons.php```
 
 **Ошибка при создании заказа**
-```
-*/templates/*_TEMPLATE_*/renderer/payment_fail/_default.php```
+```*/templates/*_TEMPLATE_*/renderer/payment_fail/_default.php```
 
 **Стили**
-```
-*/assets/css/jbzoo.css```
+```*/assets/css/jbzoo.css```
 
  - основные стили каталога **ver. 2.1.5**
-```
-*/assets/less```
+```*/assets/less```
 
  - стили каталога для **ver.** **2.2**
  
-```
-/modules/mod_jbzoo_category/assets/styles.less```
+```/modules/mod_jbzoo_category/assets/styles.less```
 
  - стили категорий **ver.** **2.2**
  
-```
-*/framework/helpers/jbmoney.php```
+```*/framework/helpers/jbmoney.php```
 
  - валюты **ver. 2.2**
-```
-\media\zoo\applications\jbuniversal\templates\catalog\renderer\basket\_buttons.php```
+```\media\zoo\applications\jbuniversal\templates\catalog\renderer\basket\_buttons.php```
 
 - тут важна единственная строка: 
-```
-<input type="submit" name="create" value="<?php echo JText::_('JBZOO_CART_SUBMIT'); ?>"class="jbbutton green big" />```
+```<input type="submit" name="create" value="<?php echo JText::_('JBZOO_CART_SUBMIT'); ?>"class="jbbutton green big" />```
 
 Переопределяем класс стилей кнопки намертво. **ver. 2.2**
  
 **Изменение tab`ов в v.220-1**
-```
-media/zoo/applications/jbuniversal/templates/uikit/renderer/item/full.php```
+```media/zoo/applications/jbuniversal/templates/uikit/renderer/item/full.php```
 
 Менять в двух местах в файле!!! :) До кучи, если вставляем новый таб, не забудьте прописать его тут:  
-```
-media/zoo/applications/jbuniversal/templates/uikit/renderer/item/positions.xml```
+```media/zoo/applications/jbuniversal/templates/uikit/renderer/item/positions.xml```
 
 Стили по аналогии с существующими.
  
