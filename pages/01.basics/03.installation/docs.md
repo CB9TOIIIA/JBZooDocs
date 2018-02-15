@@ -187,4 +187,15 @@ $this._processSn($this);
 ``` jbuniversal\templates\auto\renderer\element\jbads.php```
 
 
+## Убрать 0 в сервисе доставки
+
+![image](https://user-images.githubusercontent.com/1074710/36245971-9a1d28d6-123e-11e8-91a2-fc3bfa39f5e0.png)
+
+``` <?php
+if ($element->identifier == 'element_id_1' || $element->identifier == 'element_id_2') {
+echo 'по тарифам ТК';
+} else {
+echo $rate->html();
+}
+?>```
 
