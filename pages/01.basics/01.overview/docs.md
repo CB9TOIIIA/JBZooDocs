@@ -278,3 +278,10 @@ pipe.php — строку, разделяя «|».
 Смена стилей "Текущий шаблон элемента"
 
 ``` media\zoo\applications\jbuniversal\templates-system\renderer\jbprice```
+
+Где формируется YML
+
+```/media/zoo/applications/jbuniversal/framework/helpers ```
+
+Практически вся логика экспорта находится тут
+```\media\zoo\applications\jbuniversal\framework\helpers\jbyml.php ```
