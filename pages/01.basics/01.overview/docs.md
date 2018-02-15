@@ -1,5 +1,5 @@
 ---
-title: Что где лежит или файловая система
+title: Что где лежит
 taxonomy:
     category: docs
 ---
