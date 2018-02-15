@@ -1,11 +1,11 @@
 ---
-title: Basics
+title: Базовая документация
 taxonomy:
     category: docs
 ---
 
-### Chapter 1
+### Основы работы
 
-# Basics
+# Базовая документация
 
-Discover the **basic** principals
+Для тех, кто познал **css** стили
