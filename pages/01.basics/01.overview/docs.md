@@ -227,3 +227,51 @@ pipe.php — строку, разделяя «|».
 Тема письма о добавлении комментария"Topic reply notification" меняется здесь:
 
 ```/administrator/components/com_zoo/helpers/comment.php```
+
+
+КОРЗИНА
+Общий шаблон всей корзины (заголовок)
+```сайт\media\zoo\applications\jbuniversal\templates\catalog\basket.php  ```
+
+КОРЗИНА - Элементы
+Блок "таблица с товарами"
+```*/templates/catalog/renderer/basket/_form.php```
+
+Блок "поля заказа"
+```*/templates/catalog/renderer/basket/_shipping.php```
+
+Блок "сервис доставки"
+```*/templates/catalog/renderer/basket/_shipping.php```
+
+Блок "поля доставки"
+```- нет инфо```
+
+Блок "способы оплаты"
+```*/templates/catalog/renderer/basket/_buttons.php```
+
+Блок "кнопки"
+```*/templates/catalog/renderer/basket/_buttons.php```
+
+КОРЗИНА - Прочее
+ошибки при оплате
+```*/templates/*_TEMPLATE_*/renderer/payment_fail/_default.php```
+
+УСПЕШНАЯ ОПЛАТА И СОЗДАНИЕ
+Шаблон "Успешная оплата"
+```*\templates\uikit\renderer\payment_success\```
+
+Шаблон "Успешный заказ"
+```*\templates\*_TEMPLATE_*\renderer\basket-success\index.php```
+
+
+Если нужно изменить эту страничку, то необходимо:
+
+``` Полная правка шаблона "Успешный заказ" или "Успешная оплата" (...\renderer\payment_success\  и  ...\renderer\basket-success\)
+ Убрать уведомление, которое вылазит дублируя основной текст страницы (Решение)
+ Вывод номера и суммы созданного заказа (Решение)```
+
+
+Или редирект:
+
+``` После оплаты - редирект на главную страницу (Решение)```
+
