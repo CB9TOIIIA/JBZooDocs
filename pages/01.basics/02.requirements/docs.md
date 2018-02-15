@@ -1,42 +1,202 @@
----
-title: Requirements
-taxonomy:
-    category: docs
----
+Я собирался написать эту статью очень-очень давно.
+Но в силу различных причин и обстоятельств она откладывалась в долгий ящик.
 
-Lorem markdownum pius. Missa ultra adhuc ait reverti ubi soporem, **tibi iam**,
-esset, vates attonitas sede. Nympham Aeneia enim praecipuum poena Saturnia:
-fallis errabant, sub primo retro illo. Caesariem tincta natam contineat demens.
-*Si sed* ardescunt Delphice quasque alteraque servant.
+Предупрежу, что если вы не знаете как пользоваться PHP, то статья явно не для вас, дальше можно не читать.
+Остальным - welcome!
 
-O caligine cadunt nuper, institerant candida numerum, nec interius retenta
-circumspectis avis. Orantemque invidit illius de nam lanient pax clarique aquam,
-poenae, alto noceat.
+Большим плюсом будет если вы понимаете ООП, чем модель отличается от вида и контроллера, ну и респект и уважуха если способны отличить Абстрактную Фабрику от Моста и Пула Одиночек (в реалиях Joomla это я лукавлю конечно, но все же все тоже встречается в глубинах движка… =) ).
 
-## Percussae oculos
+Внутреннее API у Zoo и JBZoo (далее просто Фреймворк) довольно богатое, за раз обо всем не рассказать. Как говориться "Нельзя перепрыгнуть пропасть в два прыжка. Поэтому мы будем двигаться через неё маленькими шажочками!"
 
-Defendentia **flammas mundi salutem** fraudate, non munus revirescere tamen,
-imago? Ad sit festumque [super](http://hipstermerkel.tumblr.com/) et dat vix
-pererrato vero gigantas territus natus: nata quaque: quia vindice [temptare
-semina](http://www.lipsum.com/)! Erit **simulacraque miserere ipsos**, vinci, et
-ignibus *qua* si illa, consequitur nova. Constitit habet coniugis; coegit nostri
-in fuissem!
+Статья предполагает пройтись "галопом по Европам" среди основных фич Фреймворка, но 90% материала все же останется в качестве домашнего задания.
 
-Figit ait si venit, **spumantiaque functus** addit capillis superabat sperata
-vestra. In nymphas cervus eram feret lingua, hunc, nulla quae. Gens *artisque*
-ad peregit nitido cursu pondere. Petitur ex virtus, terrae infesto Circen: voce
-roganti latet. Exit hydrae, expellitur onerosa gratissima iniustum Clytii
-crimen.
+И так-с, начнем c малого...
 
-## Pactique in quibus pariterque praebebat mare dapes
 
-Sonat timeam furori non Sigei furiali os ut, orbe! Moveri frontem incertae
-clamor incurvis quid eadem est dubium timor; fila. Suos *trepidaeque* cornua
-sparsus.
 
-Mihi [aut palustribus](http://www.billmays.net/), natus semilacerque audito
-Enaesimus, fuerat refert. Aevi et evadere potentior Pergama sis.
+## **Что такое хелперы?**
 
-Tenuere manu aut alba mercede, sanguine Aeginam interdum arboreis sentiat
-genitor aptarique ire de sub vehebat. Aspera sedesque, et tempus deseruere
-contenta, rex interea nisi arma.
+В Zoo (да и вообще в программировании) есть такое понятие, как хелперы (helpers).
+Это разнообразные полезные функции, которые сгруппированы вместе по смыслу и образуют небольшие классы. Не стоит путать с библиотеками, под ними обычно подразумевают что-то стороннее и не так сильно интегрированное с системой в целом.
+
+Назначение хелперов самое разнообразное, от глобальных системных (например, для контролирования путей в системе) до периферийных (для работы с аватарами в комментариях).
+
+Важно понимать смысловую разницу между обычным классом и хелпером.
+Хелпер имеет ленивую инициализацию и создается автоматически. Это значит что до тех пор пока вы первый раз не обратитесь к хелперу файл не будет подключен и экземпляр не будет создан. Создается обычно только один экземпляр хелпера. По сути, это паттерн ООП "пул одиночек".
+Так же еще одна важна особенность, хелпер не должен хранить состояние. Его всегда нужно рассматривать как набор инструментов, а не определённую сущность сайта (для сущностей есть модели). Иначе вам нужно пересмотреть логику вашего расширения.
+
+
+**Где лежат хелперы?**
+Посмотреть их воочию можно по следующим путям. Различные папки нужны в основном только для группировки хелперов. Итак
+
+Системные - /administrator/components/com_zoo/framework/helpers/
+Основные от Zoo - /administrator/components/com_zoo/helpers/
+Хелперы JBZoo (все имеют префикс "jb") - /media/zoo/applications/jbuniversal/framework/helpers/
+Перезагруженные стандартные - /media/zoo/applications/jbuniversal/framework/helpers-std/
+
+
+**Как работать с хелперами?**
+Для работы с хелперами в Zoo предусмотрен класс App. Это своеобразная точка доступа к различному функционалу Фреймворка. Получить доступ к нему можно двумя способами.
+ 
+```// В любом месте кода (даже Joomla), аргумент всегда один и тот же и обозначает глобальный наймспейс в Zoo.
+$app = App::getInstance('zoo');
+
+// код исполняется в контексте любой сущности фреймворка
+$app = $this->app;[/code]
+Важное замечание, строки выше НЕ копирую объект, а получают ссылку на него. Т.е если вы его измените его в одной части программы, то это коснется и других частей.
+
+Поле вызова одиночки App получаем класс хелпера по имени файла и вызываем его метод.
+Например так
+```/*
+   Из /administrator/components/com_zoo/helpers/route.php будет вызван метод item
+   Так можно получить ссылку на материал имея на руках нужный экземпляр
+*/
+$itemUrl = $this->app->route->item($item);
+echo '<a href='.$itemUrl.'>Ссылка на страницу</a>';[/code]
+Полезные примеры с хелперами
+
+Получить объект материала или категории из базы данных по его ID
+```$item = $this->app->table->item->get(42);
+$category = $this->app->table->category->get(42);[/code]
+Масштабирование произвольной картинки с кэшированием
+```// встроенная функция для ресайза картинки (только полные (абсолютные) пути)
+$thumbFullpath = $this->app->zoo->resizeImage($OriginalFullpath, $width, $height);
+
+// обертка от JBZoo, которая умеет работать с относительными путями, но вернет объект
+$thumbInfo = $this->app->jbimage->resize($OriginalPath, $width, $height);
+
+// результат работы
+$thumbInfo->orig // полный путь до оригинального файла
+$thumbInfo->origUrl // полный путь до оригинального файла для сайта (ссылка)
+$thumbInfo->path // полный путь до миниатюры
+$thumbInfo->rel // относительный путь до миниатюры
+$thumbInfo->url // полный путь до миниатюры для сайта (ссылка)
+$thumbInfo->height; $thumbInfo->width // высота и ширина миниатюры
+[/code]
+
+**Работа с путями**
+В нашем фреймворке есть такое понятие как виртуальные пути файловой системы.
+Суть их работы в следующем, одному и тому же ключу можно указать сразу несколько различных реальных путей. После этого можно обратиться по этому ключу и хелпер автоматически пройдет по всем реальным путям и найдет файл. Штука очень удобная, но сходу не понятна. Попробую объяснить на примере.
+
+Допустим мы хотим узнать полный путь до хелпера для работы с корзиной jbcart
+Пишем следующий код
+ 
+``` // двоеточие разделяет ключ (имя вирт пути) и относительный путь до файла
+$helperPath = $this->app->path->path('helper:jbcart.php');
+dump($helperPath); // полный путь до файла jbcart.php
+[/code]
+**Собственной, что произошло?**
+Система автоматически регистрирует несколько реальных путей для ключа - "helper"
+[[img=http://llfl.ru/thumbs/91/irr_200x0.png]](http://llfl.ru/91irr)
+PathHelper будет искать файл "jbcart.php" в этих путях в обратном порядке.
+Когда найдет, вернет полный путь до этого файла.
+
+Таким образом можно решать разные задачи
+сокращать длинные пути
+проверять существование файлов
+перегружать существующие пути и подменять некоторые системные файлы с ленивой инициализацией
+
+Список всей существующих имен для хелпера
+[[img=http://llfl.ru/thumbs/5f/g5t_200x0.png]](http://llfl.ru/5fg5t)
+
+
+**Работа со статикой**
+Хелпер JBAssets нужен для быстрого подключения различной статики, скриптов и их зависимостей.
+Например при активации fancbox, jQuery подключится автоматически.
+
+
+
+
+```// включение различных библиотек
+$this->app->jbassets->jQuery();
+$this->app->jbassets->jQueryUI();
+$this->app->jbassets->fancybox();
+$this->app->jbassets->tablesorter();
+$this->app->jbassets->chosen();
+$this->app->jbassets->datepicker();
+// итд, полный список методов внутри хелпера
+
+// добавить глобальную переменную из PHP в документ HTML
+$this->app->jbassets->addVar($varName, $value);
+
+// подключить файл статики, используется виртуальный путь (из хелпера path)
+$this->app->jbassets->js('<путь до файла JS>');
+$this->app->jbassets->js('<путь до файла CSS>');
+[/code]
+
+**Хелперы для создания SEF-ссылок**
+И сразу примеры
+ 
+```// как по ID материала получить ссылку на материал
+$item = $this->app->table->item->get(42);
+$url = $this->app->route->item($item);
+
+// как по ID категории получить ссылку
+$category = $this->app->table->category->get(42);
+$url = $this->app->route->category($category);
+
+// главная страница каталога
+$url = $this->app->route->frontpage($application_id);
+[/code]
+Особые страницы из JBZoo, например на страницу с корзиной
+```$basketUrl = $this->app->jbrouter->basket($menuItemid, $appId);[/code]
+
+**Работа с системным кешем**
+Кеш на основе Zoo
+ 
+```// создаем объект кэширования и передаем путь хранения
+$cache = $this->app->cache->create($this->app->path->path('cache:') . '/file_name', true, 86400);
+
+// проверяем права (не обязательно)
+if (!$cache->check()) {
+    $this->app->system->application->enqueueMessage('Cache not writable!', 'notice');
+}
+
+// проверяем актуальность кеша
+$cacheСheck = ($cache) ? $cache->check() : false;
+if ($cacheСheck) {
+    $data = $cache->get('Ключ переменной');
+}
+
+if (empty($data)) {
+    // сложные вычисления
+    $data = 2 + 3;
+    
+    // сохраняем в кеш
+    $cache->set('Ключ переменной', $data);
+    $cache->save();
+}
+[/code]
+или на основе JBZoo (по сути упрощенная обертка вокруг кеша Zoo)
+```$key = 'Переменная, которая отвечает за уникальность значения кеша';  // ключ кеша
+$group  = 'папка/группы/кеша';
+
+// проверяем актуальность
+if (!($result = $this->app->jbcache->get($key, $group))) {
+
+    // сложные вычисления
+    $result = 2 + 2 * 2;
+
+    // сохраняем результат
+    $this->app->jbcache->set($key, $result, $group);
+}
+[/code]
+
+**Работа с данными из REQUEST**
+```$request = $this->app->jbrequest;
+
+// получить данные из внешней переменной (очищена от HTML и пробелов по краям)ж
+// второй аргумент освобождает от лишних проверок в коде
+$var = $request->get('varName', 'defaultData');
+
+// узнать, текущий запрос сделан AJAX'ом или он обычный
+if ($request->isAjax()) { … }
+
+// Это POST запрос?
+if ($request->isPost()) { … }
+
+// Переменная option ровна com_zoo? (избавляет от простейших условий в коде)
+if ($request->is('option', 'com_zoo')) { … }
+[/code]
+Хелперов внутри фреймворка десятки. Если рассказать о каждом, то получится небольшая книжка =)
+Поэтому оставлю это на самостоятельное изучение и перейду к моделям.
