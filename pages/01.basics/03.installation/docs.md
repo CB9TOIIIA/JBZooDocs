@@ -191,13 +191,16 @@ $this._processSn($this);
 
 ![image](https://user-images.githubusercontent.com/1074710/36245971-9a1d28d6-123e-11e8-91a2-fc3bfa39f5e0.png)
 
-``` <?php
+```
+<?php
 if ($element->identifier == 'element_id_1' || $element->identifier == 'element_id_2') {
 echo 'по тарифам ТК';
 } else {
 echo $rate->html();
 }
-?>```
+?>
+
+```
 
 ## Как убрать значение селекта по умолчанию?
 ![image](http://llfl.ru/images/5v/c2o5.png)
