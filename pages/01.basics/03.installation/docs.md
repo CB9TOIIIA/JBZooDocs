@@ -199,3 +199,13 @@ echo $rate->html();
 }
 ?>```
 
+## Как убрать значение селекта по умолчанию?
+![image](http://llfl.ru/images/5v/c2o5.png)
+
+Эта строка создает первую строку в списке
+Список опций создается тут
+``` 
+media\zoo\applications\jbuniversal\cart-elements\price\option\option.php
+``` 
+Эта строка создает первую строку в списке
+
