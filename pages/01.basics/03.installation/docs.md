@@ -215,3 +215,18 @@ media\zoo\applications\jbuniversal\cart-elements\price\option\option.php
 ``` 
 Эта строка создает первую строку в списке
 
+
+## Проблема с элементом цены "Скидка"
+для цены вида 3,56 скидка выводится просто пустой оберткой без значения. При введении цены без десятичных значений - все работает.
+
+От цены 35.59 - отобразится. А 3.59 - нет.
+
+```
+    /*if(!$this->hasValue($params)) {
+            return $this->renderWrapper();
+        }*/
+ 
+        if(!$this->getValue('value')) {
+            return $this->renderWrapper();
+        } 
+ ```
