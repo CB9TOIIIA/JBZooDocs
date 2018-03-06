@@ -155,7 +155,8 @@ $url = $this->app->route->frontpage($application_id);
 **Работа с системным кешем**
 Кеш на основе Zoo
  
-```// создаем объект кэширования и передаем путь хранения
+```
+// создаем объект кэширования и передаем путь хранения
 $cache = $this->app->cache->create($this->app->path->path('cache:') . '/file_name', true, 86400);
 
 // проверяем права (не обязательно)
@@ -180,7 +181,8 @@ if (empty($data)) {
 ```
 
 или на основе JBZoo (по сути упрощенная обертка вокруг кеша Zoo)
-```$key = 'Переменная, которая отвечает за уникальность значения кеша';  // ключ кеша
+```
+$key = 'Переменная, которая отвечает за уникальность значения кеша';  // ключ кеша
 $group  = 'папка/группы/кеша';
 
 // проверяем актуальность
@@ -196,7 +198,8 @@ if (!($result = $this->app->jbcache->get($key, $group))) {
 
 
 **Работа с данными из REQUEST**
-```$request = $this->app->jbrequest;
+```
+$request = $this->app->jbrequest;
 
 // получить данные из внешней переменной (очищена от HTML и пробелов по краям)ж
 // второй аргумент освобождает от лишних проверок в коде
@@ -230,7 +233,8 @@ if ($request->is('option', 'com_zoo')) { … }
 
 
 
-```// возьмем ссылку, чтобы наш код был короче
+```
+// возьмем ссылку, чтобы наш код был короче
 $itemModel = $this->app->table->item;
 $categoryModel = $this->app->table->category;
 
@@ -262,7 +266,8 @@ $categories = $categoryModel->all(array(
 Стандартный конструктор для выборок в Zoo далеко не самый гибкий. Поэтому для мы с помощью JBZoo добавили свои модели. Все они находятся тут /media/zoo/applications/jbuniversal/framework/models/
 
 Рассмотрим пару примеров
-```$options = array(
+```
+$options = array(
     'category_nested' => true, // выбирать из вложенный категорий
     'limit' => array(2, 10), // offset и limit
     'user' => true,  // учитывать ID автора (текущий пользователь)
@@ -288,7 +293,8 @@ $items = JBModelFilter::model()->search($elements);
 Иначе у вас в базу будет хранится разнообразный хлам и как следствие - скрытые ошибки базы данных и лишний объем.
 
 Для этих целей у каждого класса таблицы предусмотрен метод delete()
-```$tableItem = $this->app->table->item;
+```
+$tableItem = $this->app->table->item;
 $item = $tableItem->get(42);
 $tableItem->delete($item);
 ```
@@ -308,7 +314,8 @@ $tableItem->delete($item);
 Создаем и подключаем класс события. Далее
 
 
-```$event         = $this->app->event;
+```
+$event         = $this->app->event;
 $dispatcher = $event->dispatcher;
 
 // производим регистрацию своего класса
@@ -319,12 +326,14 @@ $dispatcher->connect('myevent:function', array('MyEventClass', 'handler'));
 ```
 
 Если вы решили сделать собственное событие, то все тоже самое, только в нужный момент не забывайте вызывать нотификацию диспетчера
-```$dispatcher->notify($event->create($var, 'myevent:function', array( /* ассоц массив с доп параметрами */))); // $var - основной объект события
+```
+$dispatcher->notify($event->create($var, 'myevent:function', array( /* ассоц массив с доп параметрами */))); // $var - основной объект события
 ```
 
 
 **Пример простейшего класса для обработки событий**
-```// Класс нужно подключить вручную
+```
+// Класс нужно подключить вручную
 class MyEventClass
 {
 
@@ -360,7 +369,8 @@ JBZoo регистрирует классы "пустышки" для удобс
 
 **Как получить доступ к данным произвольного поля материала ?**
 например, вне шаблона в произвольном месте
-```<?php
+```
+<?php
 // если у вас нет материала (переменной $item), но вы знаете его ID
  
 $app = App::getInstance('zoo');
@@ -376,7 +386,8 @@ echo $data[0]['value'];
 ```
 
 **Как изменить одно поле программно?**
-```// в продолжение предыдущего примера
+```
+// в продолжение предыдущего примера
  
 $element->bindData($data); // сохраняем данные обратно в элемент
 $app->table->item->save($item); // сохраняем изменения в базу, переиндексация материала произойдет автоматически
@@ -390,7 +401,8 @@ $app->table->item->save($item); // сохраняем изменения в ба
 
 Пример создания нового материала через PHP
 
-```// пустышка
+```
+// пустышка
 $item                   = $this->app->object->create('Item');
 
 // наполняем стандартные поля
@@ -419,12 +431,14 @@ $this->app->table->item->save($item);
  
 **По ID материала получить ссылку на материал**
 
-```$this->app->jbrouter->externalItem($item)
+```
+$this->app->jbrouter->externalItem($item)
 ```
 
 **Получить артикул (SKU) или цену - без использования GetList()**
 
-```$CB_price = 'ELEMENT_ID';
+```
+$CB_price = 'ELEMENT_ID';
 $CB_SKU = $this->_item->getElement($CB_price)->data()->variations;
 $CB_SKU_App = $this->app->data->create($CB_SKU);
 
@@ -437,7 +451,8 @@ $Value_Price = trim(strip_tags($Value_Price));
 ```
 
 **Получить по API главную категорию.**
-```$primary_category_id = $this->_item->getPrimarycategory()->id;
+```
+$primary_category_id = $this->_item->getPrimarycategory()->id;
 ```
 
 **Отладка в JBZoo**
@@ -446,7 +461,9 @@ $Value_Price = trim(strip_tags($Value_Price));
 После этого найдите файл:
 
 
-```media\zoo\applications\jbuniversal\framework\helpers\jbdebug.php```
+```
+media\zoo\applications\jbuniversal\framework\helpers\jbdebug.php
+```
 
 
 Внизу должно появится много отладочной информации. 
