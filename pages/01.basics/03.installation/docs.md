@@ -241,3 +241,13 @@ media\zoo\applications\jbuniversal\cart-elements\price\option\option.php
 > Решение простое. Выгрузить всё, потом импортировать с галкой удалить все цены и загрузить заново.
 
 
+##  Автопубликация item из submission
+components\com_zoo\controllers\submission.php
+
+```
+if (!$this->submission->isInTrustedMode() && !in_array('_itemstate', array_keys($this->elements_config))) {
+    $this->item->state = 0;
+}
+ 
+$this->item->state = 1; // добавить
+```
